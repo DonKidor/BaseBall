@@ -1,0 +1,32 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:RGR.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:RGR.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="RGR.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="RGR">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+  <StackPanel>
+    <Grid ColumnDefinitions="*, 100, 100, 100" RowDefinitions="100">
+      <Button Content="Save" Command="{Binding OnClick}"/>
+    </Grid>
+    <TabControl Items="{Binding Tables.Tables}" SelectionChanged="OnSelect" >
+      <TabControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding TableName}" />
+        </DataTemplate>
+      </TabControl.ItemTemplate>
+    </TabControl>
+    <DataGrid x:Name="dGrid" AutoGenerateColumns="False" VerticalScrollBarVisibility="Visible" Height="300" IsReadOnly="False">
+      
+    </DataGrid>
+  </StackPanel>
+
+</Window>
