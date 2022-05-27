@@ -20,6 +20,8 @@ namespace RGR.ViewModels
             get => tablesList;
             private set => this.RaiseAndSetIfChanged(ref tablesList, value);
         }
+
+        
         public MainWindowViewModel()
         {
             context = DBContext.getInstance();
@@ -33,9 +35,8 @@ namespace RGR.ViewModels
 
         public void AddTable(DataTable table)
         {
-
-            Tables.Add(table);
-            this.RaisePropertyChanged(nameof(Tables));
+            if(!Tables.Contains(table))
+                Tables.Add(table);
         }
         
         public void OnClick()

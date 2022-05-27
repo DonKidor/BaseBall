@@ -16,9 +16,11 @@
     </Design.DataContext>
 
   
-  <Grid RowDefinitions="100, 40, *">
-    <Grid ColumnDefinitions="*, 100, 100, 200" RowDefinitions="100" Grid.Row="0">
-      <Button Content="Save" Command="{Binding OnClick}" Grid.Column="1"/>
+  <Grid RowDefinitions="50, 40, *">
+    <Grid ColumnDefinitions="100, 100, 100, 200" Grid.Row="0" Margin="50 0 0 0">
+      <Button Content="Add Row" />
+      <Button Content="Delete Row" Grid.Column="1"/>
+      <Button Content="Save" Command="{Binding OnClick}" Grid.Column="2"/>
       <Button Content="Query Manager" Click="showQueryWindow" Grid.Column="3"/>
     </Grid>
 

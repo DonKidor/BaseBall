@@ -10,7 +10,7 @@
     <Grid RowDefinitions="50, *" Grid.Column="0" Background="LightGray">
       <Button Content="New Query" Grid.Row="0" HorizontalAlignment="Center" Click="CreateQuery"/>
       <Border Grid.Row="1" BorderThickness="1" BorderBrush="Black" Margin="10">
-        <ListBox Items="{Binding QueryItems}" Background="White">
+        <ListBox Items="{Binding QueryItems}" Background="White" SelectedItem="{Binding TargetQuery}">
           <ListBox.Styles>
             <Style Selector="ListBoxItem">
               <Setter Property="Height" Value="30" />
@@ -34,9 +34,9 @@
         <StackPanel Orientation="Horizontal" Grid.Row="0" Spacing="10" HorizontalAlignment="Center">
           <TextBox Watermark="Query name" Text="{Binding TargetQuery.QueryName}" Height="35" Width="150" Background="White"/>
           <Button Content="Delete" />
-          <Button Content="Join" />
-          <Button Content="Where" />
-          <Button Content="Group" />
+          <Button Content="Join" Click="JoinQuery" />
+          <Button Content="Where" Click="WhereQuery"/>
+          <Button Content="Group" Click="GroupQuery"/>
           <Button Content="RUN" Command="{Binding RunQuery}"/>
         </StackPanel>
       
@@ -48,7 +48,7 @@
           </ItemsControl.ItemsPanel>
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <Border BorderBrush="Black" BorderThickness="1" Background="LightGray" Width="120">
+              <Border BorderBrush="Black" BorderThickness="1" Background="LightGray" Width="120" Margin="0 0 10 0">
                 <Grid RowDefinitions="30, *">
                   <Border BorderBrush="Black" BorderThickness="1" Background="Gray" Grid.Row="0">
                     <TextBlock Text="{Binding TableName}" HorizontalAlignment="Center" VerticalAlignment="Center"/>

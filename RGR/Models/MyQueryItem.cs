@@ -51,6 +51,11 @@ namespace RGR.Models
         }
 
         DataTable table;
+        public DataTable Table
+        {
+            get => table;
+            set => table = value;
+        }
         public MyQueryItem(DataTable table)
         {
             this.table = table;

@@ -26,20 +26,53 @@ namespace RGR.Models
 
         private void GenerateQuery()
         {
-            var sel = Items[0].getSelected();
+            
             string res = "SELECT ";
-            for(int i=0; i<sel.Count; i++)
+            for (int j = 0; j < Items.Count; j++)
             {
-                res += sel[i];
-                if (i != sel.Count - 1) res += ", ";
+                var sel = Items[j].getSelected();
+                for (int i = 0; i < sel.Count; i++)
+                {
+                    res += Items[j].TableName + "." + sel[i]+", ";
+                }
             }
+            res = res.Substring(0, res.Length - 2);
             res += " FROM " + Items[0].getString();
+            for(int i=1; i<Items.Count; i++)
+            {
+                var t1 = Joins[i - 1].firstTable.TableName + "." + Joins[i - 1].firstColumn;
+                var t2 = Joins[i - 1].secondTable.TableName + "." + Joins[i - 1].secondColumn;
+                var tbn = Items[i].TableName;
+                if(Joins[i-1].secondTable as MyQuery != null)
+                {
+                    (Joins[i - 1].secondTable as MyQuery).GenerateQuery();
+                    tbn = "(" + (Joins[i - 1].secondTable as MyQuery).QueryString + ") as "+tbn;
+                }
+                res +=" JOIN "+tbn+" ON "+t1+"="+t2;
+            }
+            if (WhereItems.Count > 0) res += " WHERE ";
+            for(int i=0; i<WhereItems.Count; i++)
+            {
+                var items = WhereItems[i];
+                for(int j=0; j<items.Count; j++)
+                {
+                    res += items[j].fromTable + items[j].OperatorW + items[j].ValueW;
+                    if (j != items.Count - 1) res += " OR ";
+                }
+                if (i != WhereItems.Count - 1) res += " AND ";
+            }
+            foreach(var str in GroupItems)
+            {
+                res += " GROUP BY " + str;
+            }
             res += ";";
             queryString = res;
         }
         public void Run()
         {
             GenerateQuery();
+            Clear();
+            Columns.Clear();
             DBContext.getInstance().GetQuery(QueryString, this);
         }
 
@@ -60,6 +93,12 @@ namespace RGR.Models
             }
         }
         
+        public List<List<WhereItem>> WhereItems
+        {
+            get;
+            set;
+        }
+
         public void RaisePropertyChanging(PropertyChangingEventArgs args)
         {
             throw new NotImplementedException();
@@ -68,6 +107,17 @@ namespace RGR.Models
         public void RaisePropertyChanged(PropertyChangedEventArgs args)
         {
             PropertyChanged?.Invoke(this, args);
+        }
+
+        public List<string> GroupItems
+        {
+            get;
+            set;
+        }
+        public List<JoinResult> Joins
+        {
+            get;
+            set;
         }
 
         public ObservableCollection<MyQueryItem> Items
@@ -79,6 +129,9 @@ namespace RGR.Models
         {
             TableName = name;
             Items = new ObservableCollection<MyQueryItem>();
+            Joins = new List<JoinResult>();
+            GroupItems = new List<string>();
+            WhereItems = new List<List<WhereItem>>();
         }
     }
 }

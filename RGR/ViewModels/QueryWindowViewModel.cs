@@ -62,6 +62,20 @@ namespace RGR.ViewModels
                 }
             }
         }
+
+        private ObservableCollection<WhereItem> whereItem;
+        public ObservableCollection<WhereItem> WhereItems
+        {
+            get => whereItem;
+            set => this.RaiseAndSetIfChanged(ref whereItem, value);
+        }
+
+        private WhereItem targetWhere;
+        public WhereItem TargetWhere
+        {
+            get => targetWhere;
+            set => this.RaiseAndSetIfChanged(ref targetWhere, value);
+        }
         public QueryWindowViewModel()
         {
             queryList = new ObservableCollection<MyQuery>();
