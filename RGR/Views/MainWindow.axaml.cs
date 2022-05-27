@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using RGR.Models;
 using RGR.ViewModels;
+using System.Collections.Generic;
 
 namespace RGR.Views
 {
@@ -37,6 +38,7 @@ namespace RGR.Views
         private void OnCellEditEnd(object sender, DataGridCellEditEndingEventArgs args)
         {
             if (args.EditAction != DataGridEditAction.Commit) return;
+            if (args.EditingElement as TextBox == null) return;
             DataGrid dataGrid = sender as DataGrid;
             string index = args.Column.Header as string;
             string a = (args.EditingElement as TextBox).Text;
@@ -55,7 +57,7 @@ namespace RGR.Views
             {
                 int i = 0;
                 dGrid.Columns.Clear();
-                dGrid.Items = table.Rows;
+                //dGrid.Items = table.Rows;
                 foreach(DataColumn col in table.Columns)
                 {
                     dGrid.Columns.Add(new DataGridTextColumn

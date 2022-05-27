@@ -33,7 +33,7 @@ namespace RGR.Models
                 var sel = Items[j].getSelected();
                 for (int i = 0; i < sel.Count; i++)
                 {
-                    res += Items[j].TableName + "." + sel[i]+", ";
+                    res += Items[j].TableName + ".'" + sel[i]+"', ";
                 }
             }
             res = res.Substring(0, res.Length - 2);
@@ -54,16 +54,18 @@ namespace RGR.Models
             for(int i=0; i<WhereItems.Count; i++)
             {
                 var items = WhereItems[i];
+                res += "(";
                 for(int j=0; j<items.Count; j++)
                 {
-                    res += items[j].fromTable + items[j].OperatorW + items[j].ValueW;
+                    res += items[j].fromTable +" "+ items[j].OperatorW +" "+ items[j].ValueW;
                     if (j != items.Count - 1) res += " OR ";
                 }
+                res += ")";
                 if (i != WhereItems.Count - 1) res += " AND ";
             }
             foreach(var str in GroupItems)
             {
-                res += " GROUP BY " + str;
+                res += " GROUP BY '" + str+"'";
             }
             res += ";";
             queryString = res;
@@ -120,6 +122,17 @@ namespace RGR.Models
             set;
         }
 
+        public ObservableCollection<string> Modifiers
+        {
+            get;
+            set;
+        }
+
+        public void AddMod(string modName)
+        {
+            Modifiers.Add(modName);
+            this.RaisePropertyChanged(nameof(Modifiers));
+        }
         public ObservableCollection<MyQueryItem> Items
         {
             get;
@@ -132,6 +145,8 @@ namespace RGR.Models
             Joins = new List<JoinResult>();
             GroupItems = new List<string>();
             WhereItems = new List<List<WhereItem>>();
+            Modifiers = new ObservableCollection<string>();
+
         }
     }
 }

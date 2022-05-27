@@ -18,13 +18,13 @@
   
   <Grid RowDefinitions="50, 40, *">
     <Grid ColumnDefinitions="100, 100, 100, 200" Grid.Row="0" Margin="50 0 0 0">
-      <Button Content="Add Row" />
-      <Button Content="Delete Row" Grid.Column="1"/>
+      <Button Content="Add Row" Command="{Binding AddRow}"/>
+      <Button Content="Delete Row" Command="{Binding DeleteRows}" Grid.Column="1"/>
       <Button Content="Save" Command="{Binding OnClick}" Grid.Column="2"/>
       <Button Content="Query Manager" Click="showQueryWindow" Grid.Column="3"/>
     </Grid>
 
-    <ListBox Items="{Binding Tables}" SelectionChanged="OnSelect" x:Name="myTabs" Grid.Row="1">
+    <ListBox Items="{Binding Tables}" SelectedItem="{Binding SelectedTable}" SelectionChanged="OnSelect" x:Name="myTabs" Grid.Row="1">
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
           <StackPanel Orientation="Horizontal"/>
@@ -47,8 +47,8 @@
       </ListBox.DataTemplates>
     </ListBox>
     <Border BorderBrush="Black" BorderThickness="1" Background="LightGray" Grid.Row="2">
-      <DataGrid Background="White" x:Name="dGrid" AutoGenerateColumns="False" VerticalScrollBarVisibility="Visible" IsReadOnly="False">
-      
+      <DataGrid Items="{Binding SelectedTable.Rows}" Background="White" x:Name="dGrid" AutoGenerateColumns="False" VerticalScrollBarVisibility="Visible" IsReadOnly="False">
+        
       </DataGrid>
     </Border>
   </Grid>

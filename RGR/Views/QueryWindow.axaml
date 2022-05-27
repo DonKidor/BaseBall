@@ -70,8 +70,8 @@
         </ItemsControl>
       </Grid>
     </Border>
-    <ItemsControl Grid.Column="2">
+    <ListBox Items="{Binding TargetQuery.Modifiers}" Grid.Column="2">
       
-    </ItemsControl>
+    </ListBox>
   </Grid>
 </Window>

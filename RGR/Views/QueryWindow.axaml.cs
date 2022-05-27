@@ -43,6 +43,7 @@ namespace RGR.Views
             {
                 context.TargetQuery.Items.Add(new MyQueryItem(res.secondTable));
                 context.TargetQuery.Joins.Add(res);
+                context.TargetQuery.AddMod("JOIN");
             }
         }
 
@@ -54,6 +55,7 @@ namespace RGR.Views
             if(res != null)
             {
                 context.TargetQuery.GroupItems.Add(res);
+                context.TargetQuery.AddMod("GROUP");
             }
         }
 
@@ -72,6 +74,7 @@ namespace RGR.Views
                     items.Add(item);
                 }
                 context.TargetQuery.WhereItems.Add(items);
+                context.TargetQuery.AddMod("WHERE");
             }
             
         }

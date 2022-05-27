@@ -29,7 +29,8 @@ namespace RGR.Views
             if (sel == null) return false;
             var context = DataContext as QueryWindowViewModel;
             context.TargetWhere.OperatorW = (this.FindControl<ComboBox>("ComboBox").SelectedItem as ComboBoxItem).Content as string;
-            context.TargetWhere.fromTable = sel.Table.TableName + "." + sel.ColumnName;
+            context.TargetWhere.fromTable = sel.Table.TableName + ".'" + sel.ColumnName+"'";
+            context.TargetWhere.ValueW = "'"+context.TargetWhere.ValueW+"'";
             context.WhereItems.Add(context.TargetWhere);
             context.TargetWhere = new Models.WhereItem();
             return true;
@@ -62,7 +63,7 @@ namespace RGR.Views
                 var context = DataContext as QueryWindowViewModel;
                 var sel = args.AddedItems[0] as DataColumn;
                 if (sel == null) return;
-                context.TargetWhere.ValueW = sel.Table.TableName + "." + sel.ColumnName;
+                context.TargetWhere.ValueW = sel.Table.TableName + ".'" + sel.ColumnName+"'";
                 (sender as TreeView).SelectedItem = null;
             }
         }

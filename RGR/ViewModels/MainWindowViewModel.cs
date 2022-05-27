@@ -21,6 +21,13 @@ namespace RGR.ViewModels
             private set => this.RaiseAndSetIfChanged(ref tablesList, value);
         }
 
+        private DataTable selectedTable;
+        public DataTable SelectedTable
+        {
+            get => selectedTable;
+            set => this.RaiseAndSetIfChanged(ref selectedTable, value);
+        }
+
         
         public MainWindowViewModel()
         {
@@ -33,6 +40,24 @@ namespace RGR.ViewModels
             }
         }
 
+        public void AddRow()
+        {
+            if (SelectedTable as MyQuery != null) return;
+            DataRow row = SelectedTable.NewRow();
+            row.BeginEdit();
+            for(int i=0; i<row.ItemArray.Length; i++)
+            {
+                row[row.Table.Columns[i].ColumnName] = "0";
+            }
+            row.EndEdit();
+            SelectedTable.Rows.Add(row);
+        }
+
+        public void DeleteRows()
+        {
+            SelectedTable.Rows.RemoveAt(SelectedTable.Rows.Count - 1);
+            this.RaisePropertyChanged(nameof(SelectedTable.Rows));
+        }
         public void AddTable(DataTable table)
         {
             if(!Tables.Contains(table))

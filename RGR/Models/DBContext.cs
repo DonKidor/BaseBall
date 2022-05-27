@@ -54,7 +54,10 @@ namespace RGR.Models
             foreach (DataTable table in tables.Tables) {
                 SQLiteDataAdapter adapter = new SQLiteDataAdapter("select * from " + table.TableName, sql_con);
                 adapter.UpdateCommand = new SQLiteCommandBuilder(adapter).GetUpdateCommand();
+                adapter.InsertCommand = new SQLiteCommandBuilder(adapter).GetInsertCommand();
+                adapter.DeleteCommand = new SQLiteCommandBuilder(adapter).GetDeleteCommand();
                 adapter.Update(sTables, table.TableName);
+                
              }
         }
         private DBContext() {
